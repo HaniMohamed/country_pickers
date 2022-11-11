@@ -91,6 +91,9 @@ class CountryPickerDialog extends StatefulWidget {
   ///Filters the country list for search
   final SearchFilter? searchFilter;
 
+  // apply button text
+  String applyButtonText = 'Apply';
+
   CountryPickerDialog({
     Key? key,
     required this.onValuePicked,
@@ -112,6 +115,7 @@ class CountryPickerDialog extends StatefulWidget {
     this.searchCursorColor,
     this.searchEmptyView,
     this.searchFilter,
+    this.applyButtonText = 'Apply',
   }) : super(key: key);
 
   @override
@@ -159,21 +163,39 @@ class SingleChoiceDialogState extends State<CountryPickerDialog> {
 
   _buildContent(BuildContext context) {
     return _filteredCountries.isNotEmpty
-        ? ListView(
-            shrinkWrap: true,
-            children: _filteredCountries
-                .map((item) => SimpleDialogOption(
-                      child: widget.itemBuilder != null
-                          ? widget.itemBuilder!(item)
-                          : Text(item.name),
+        ? Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: _filteredCountries
+                      .map((item) => SimpleDialogOption(
+                            child: widget.itemBuilder != null
+                                ? widget.itemBuilder!(item)
+                                : Text(item.name),
+                            onPressed: () {
+                              widget.onValuePicked(item);
+                              if (widget.popOnPick) {
+                                Navigator.pop(context);
+                              }
+                            },
+                          ))
+                      .toList(),
+                ),
+              ),
+              if (!widget.popOnPick)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
                       onPressed: () {
-                        widget.onValuePicked(item);
-                        if (widget.popOnPick) {
-                          Navigator.pop(context);
-                        }
+                        Navigator.pop(context);
                       },
-                    ))
-                .toList(),
+                      child: Text(widget.applyButtonText),
+                    ),
+                  ],
+                ),
+            ],
           )
         : widget.searchEmptyView ??
             Center(
