@@ -91,8 +91,7 @@ class CountryPickerDialog extends StatefulWidget {
   ///Filters the country list for search
   final SearchFilter? searchFilter;
 
-  // apply button text
-  String applyButtonText = 'Apply';
+  Widget? actionBar;
 
   CountryPickerDialog({
     Key? key,
@@ -115,7 +114,7 @@ class CountryPickerDialog extends StatefulWidget {
     this.searchCursorColor,
     this.searchEmptyView,
     this.searchFilter,
-    this.applyButtonText = 'Apply',
+    this.actionBar,
   }) : super(key: key);
 
   @override
@@ -183,18 +182,7 @@ class SingleChoiceDialogState extends State<CountryPickerDialog> {
                       .toList(),
                 ),
               ),
-              if (!widget.popOnPick)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(widget.applyButtonText),
-                    ),
-                  ],
-                ),
+              if (widget.actionBar != null) widget.actionBar!
             ],
           )
         : widget.searchEmptyView ??
