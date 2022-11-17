@@ -93,6 +93,8 @@ class CountryPickerDialog extends StatefulWidget {
 
   Widget? actionBar;
 
+  final bool withWorldwide;
+
   CountryPickerDialog({
     Key? key,
     required this.onValuePicked,
@@ -115,6 +117,7 @@ class CountryPickerDialog extends StatefulWidget {
     this.searchEmptyView,
     this.searchFilter,
     this.actionBar,
+    this.withWorldwide = false,
   }) : super(key: key);
 
   @override
@@ -130,6 +133,9 @@ class SingleChoiceDialogState extends State<CountryPickerDialog> {
 
   @override
   void initState() {
+    if (!widget.withWorldwide) {
+      countryList.removeWhere((element) => element.isoCode == 'worldWide');
+    }
     _allCountries =
         countryList.where(widget.itemFilter ?? acceptAllCountries).toList();
 

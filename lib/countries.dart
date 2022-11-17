@@ -2,6 +2,12 @@ import 'package:country_pickers/country.dart';
 
 final List<Country> countryList = [
   Country(
+    isoCode: "worldWide",
+    phoneCode: "00000",
+    name: "Worldwide",
+    iso3Code: "worldWide",
+  ),
+  Country(
     isoCode: "AF",
     phoneCode: "93",
     name: "Afghanistan",
